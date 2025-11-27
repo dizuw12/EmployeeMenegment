@@ -1,4 +1,5 @@
 ﻿using EmployeeMenegment.Models;
+using EmployeeMenegment.Repositoris;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,21 @@ namespace EmployeeMenegment.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        Employee[] employees = new Employee[]
+        private readonly IEmployeeRepository _employeeRepository;
+
+        public EmployeeController(IEmployeeRepository employeeRepository)
         {
-            new Employee{Id = 1, FirstName = "Kamil", LastName = "Rodman", Email = "Rodamn@set.pl", Phone = "872293487", Position = "Poland"}
-        };
-        
+            _employeeRepository = employeeRepository;
+        }
+       
+        [HttpPost]
+        public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
+        {
+            await _employeeRepository.AddEmployeeAsync(employee);
+            return Created();
+        }
+
     };
-}
+    
+};
+

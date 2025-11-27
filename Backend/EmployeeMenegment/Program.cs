@@ -1,4 +1,5 @@
 using EmployeeMenegment.Data;
+using EmployeeMenegment.Repositoris;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.InMemory;
 
@@ -23,6 +24,11 @@ namespace EmployeeMenegment
                 });
 
             });
+
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            builder.Services.AddControllers();
+
             var app = builder.Build();
 
             app.UseCors("MyCors");
